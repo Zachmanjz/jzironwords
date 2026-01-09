@@ -153,7 +153,7 @@ const App: FC = () => {
       <main className="max-w-7xl mx-auto px-6 py-16 md:py-28">
         <section className="mb-20 md:mb-32">
           <div className="relative group">
-            <div className="absolute left-6 md:left-12 top-1/2 -translate-y-1/2 text-zinc-800 group-focus-within:text-white transition-colors scale-150 md:scale-[2.5]">
+            <div className="absolute left-6 md:left-12 top-1/2 -translate-y-1/2 text-zinc-800 group-focus-within:text-white transition-colors scale-110 md:scale-150">
               <ICONS.Search />
             </div>
             <input 
@@ -161,7 +161,7 @@ const App: FC = () => {
               placeholder="SEARCH THE ARMORY..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#050505] border-b-[10px] border-zinc-900 p-8 md:p-14 pl-16 md:pl-36 text-2xl md:text-6xl focus:border-white outline-none transition-all placeholder:text-zinc-950 oswald font-black uppercase italic"
+              className="w-full bg-[#050505] border-b-[6px] border-zinc-900 p-5 md:p-8 pl-12 md:pl-20 text-xl md:text-4xl focus:border-white outline-none transition-all placeholder:text-zinc-950 oswald font-black uppercase italic"
             />
           </div>
           
@@ -231,7 +231,7 @@ const App: FC = () => {
                         <ICONS.Logo />
                       </div>
                       <div className="text-center">
-                        <p className="oswald text-4xl md:text-8xl font-black uppercase tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
+                        <p className="oswald text-2xl md:text-6xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
                         <p className="mono text-xs md:text-xl text-zinc-950 font-black uppercase tracking-[0.5em]">Awaiting command</p>
                       </div>
                     </div>
