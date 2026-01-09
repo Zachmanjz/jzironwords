@@ -24,7 +24,7 @@ const QuoteCard: FC<QuoteCardProps> = ({ quote, onDelete }) => {
       </div>
 
       <div className="mb-14">
-        <span className="mono text-xs text-zinc-800 block mb-10 tracking-[1em] uppercase font-black">ARMORY // {quote.id.slice(0, 8)}</span>
+        <span className="mono text-xs text-zinc-800 block mb-10 tracking-[1em] uppercase font-black">IRON WORDS // {quote.id.slice(0, 8)}</span>
         <blockquote className="relative z-10 text-xl md:text-3xl font-black leading-tight text-white tracking-tighter text-pop italic">
           "{quote.text}"
         </blockquote>
@@ -34,7 +34,7 @@ const QuoteCard: FC<QuoteCardProps> = ({ quote, onDelete }) => {
         <div className="mb-10 flex flex-col items-start gap-3">
           <p className="oswald text-2xl md:text-4xl font-black text-white tracking-widest leading-none underline decoration-[12px] decoration-zinc-950 group-hover:decoration-white transition-all underline-offset-[16px] uppercase italic">{quote.author}</p>
           {quote.source && (
-            <span className="mono text-xs text-zinc-700 font-black uppercase tracking-[0.6em] mt-6 italic">FILE: {quote.source}</span>
+            <span className="mono text-xs text-zinc-700 font-black uppercase tracking-[0.6em] mt-6 italic">{quote.source}</span>
           )}
         </div>
 
@@ -42,7 +42,7 @@ const QuoteCard: FC<QuoteCardProps> = ({ quote, onDelete }) => {
           {quote.tags.map(tag => (
             <span 
               key={tag} 
-              className="mono text-xs uppercase bg-white text-black px-6 py-3 font-black tracking-widest border-2 border-white hover:bg-black hover:text-white transition-colors cursor-default"
+              className="mono text-[10px] uppercase bg-white text-black px-4 py-2 font-black tracking-widest border-2 border-white hover:bg-black hover:text-white transition-colors cursor-default"
             >
               {tag}
             </span>
