@@ -1,0 +1,26 @@
+
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "react": ["https://esm.sh/react@19.2.3"],
+      "react-dom": ["https://esm.sh/react-dom@19.2.3"]
+    },
+    "types": []
+  },
+  "include": ["**/*.ts", "**/*.tsx", "react-env.d.ts"]
+}
