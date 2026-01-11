@@ -87,6 +87,7 @@ const App: FC = () => {
       setDoctrine(result);
     } catch (err) {
       console.error(err);
+      alert("Intelligence core failed to synthesize doctrine. Check connection.");
     } finally {
       setIsGeneratingDoctrine(false);
     }
@@ -152,8 +153,8 @@ const App: FC = () => {
 
       <main className="max-w-7xl mx-auto px-6 py-16 md:py-28">
         <section className="mb-20 md:mb-32">
-          <div className="relative group max-w-4xl mx-auto">
-            <div className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 text-zinc-800 group-focus-within:text-white transition-colors scale-90 md:scale-110">
+          <div className="relative group max-w-3xl mx-auto">
+            <div className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 text-zinc-800 group-focus-within:text-white transition-colors scale-75 md:scale-90">
               <ICONS.Search />
             </div>
             <input 
@@ -161,15 +162,15 @@ const App: FC = () => {
               placeholder="SEARCH THE ARMORY..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#050505] border-b-[4px] border-zinc-900 p-3 md:p-5 pl-10 md:pl-16 text-lg md:text-2xl focus:border-white outline-none transition-all placeholder:text-zinc-950 oswald font-black uppercase italic"
+              className="w-full bg-[#050505] border-b-[2px] border-zinc-900 p-2 md:p-3 pl-10 md:pl-14 text-base md:text-xl focus:border-white outline-none transition-all placeholder:text-zinc-950 oswald font-black uppercase italic"
             />
           </div>
           
-          <div className="mt-8 md:mt-12 flex flex-wrap items-center justify-center gap-3 md:gap-6">
-            <span className="mono text-xs md:text-sm text-zinc-700 mr-2 md:mr-4 uppercase tracking-[0.6em]">Filters:</span>
+          <div className="mt-8 md:mt-12 flex flex-wrap items-center justify-center gap-3 md:gap-4">
+            <span className="mono text-[10px] text-zinc-800 mr-2 uppercase tracking-[0.4em]">Tactical Filters:</span>
             <button 
               onClick={() => setSelectedTag(null)}
-              className={`mono text-[10px] md:text-xs px-4 py-2 md:px-6 md:py-3 border-4 transition-all tracking-[0.1em] font-black ${
+              className={`mono text-[9px] md:text-xs px-3 py-1.5 md:px-5 md:py-2.5 border-2 transition-all tracking-[0.1em] font-black ${
                 !selectedTag ? 'bg-white text-black border-white' : 'text-zinc-700 border-zinc-900 hover:border-white hover:text-white'
               }`}
             >
@@ -179,7 +180,7 @@ const App: FC = () => {
               <button 
                 key={tag}
                 onClick={() => setSelectedTag(tag)}
-                className={`mono text-[10px] md:text-xs px-4 py-2 md:px-6 md:py-3 border-4 transition-all uppercase tracking-[0.1em] font-black ${
+                className={`mono text-[9px] md:text-xs px-3 py-1.5 md:px-5 md:py-2.5 border-2 transition-all uppercase tracking-[0.1em] font-black ${
                   selectedTag === tag ? 'bg-white text-black border-white' : 'text-zinc-700 border-zinc-900 hover:border-white hover:text-white'
                 }`}
               >
@@ -231,7 +232,7 @@ const App: FC = () => {
                         <ICONS.Logo />
                       </div>
                       <div className="text-center">
-                        <p className="oswald text-2xl md:text-6xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
+                        <p className="oswald text-4xl md:text-7xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
                         <p className="mono text-xs md:text-xl text-zinc-950 font-black uppercase tracking-[0.5em]">Awaiting command</p>
                       </div>
                     </div>

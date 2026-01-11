@@ -25,14 +25,14 @@ const QuoteCard: FC<QuoteCardProps> = ({ quote, onDelete }) => {
 
       <div className="mb-14">
         <span className="mono text-xs text-zinc-800 block mb-10 tracking-[1em] uppercase font-black">IRON WORDS // {quote.id.slice(0, 8)}</span>
-        <blockquote className="relative z-10 text-xl md:text-3xl font-black leading-tight text-white tracking-tighter text-pop italic">
+        <blockquote className="relative z-10 text-xl md:text-2xl font-black leading-tight text-white tracking-tighter text-pop italic">
           "{quote.text}"
         </blockquote>
       </div>
 
       <div className="mt-auto">
         <div className="mb-10 flex flex-col items-start gap-3">
-          <p className="oswald text-2xl md:text-4xl font-black text-white tracking-widest leading-none underline decoration-[12px] decoration-zinc-950 group-hover:decoration-white transition-all underline-offset-[16px] uppercase italic">{quote.author}</p>
+          <p className="oswald text-2xl md:text-3xl font-black text-white tracking-widest leading-none underline decoration-[12px] decoration-zinc-950 group-hover:decoration-white transition-all underline-offset-[16px] uppercase italic">{quote.author}</p>
           {quote.source && (
             <span className="mono text-xs text-zinc-700 font-black uppercase tracking-[0.6em] mt-6 italic">{quote.source}</span>
           )}
