@@ -150,7 +150,7 @@ const App: FC = () => {
               </h1>
               <div className="flex items-center gap-2 mt-1 hidden sm:flex">
                 <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></div>
-                <span className="mono text-[8px] uppercase text-zinc-500 tracking-[0.2em] font-black">Database: Secured (Local)</span>
+                <span className="mono text-[9px] uppercase text-zinc-400 tracking-[0.2em] font-black">Database: Secured (Local)</span>
               </div>
             </div>
           </div>
@@ -158,13 +158,13 @@ const App: FC = () => {
           <div className="flex items-center gap-4 md:gap-8">
             <div className="hidden sm:flex items-center gap-6">
               <div className="text-right">
-                <span className="mono text-[10px] text-zinc-600 uppercase tracking-widest block">Last Write</span>
-                <span className="mono text-[10px] text-white uppercase">{new Date(lastSave).toLocaleTimeString()}</span>
+                <span className="mono text-[11px] text-zinc-600 uppercase tracking-widest block font-black">Last Write</span>
+                <span className="mono text-[11px] text-white uppercase font-black">{new Date(lastSave).toLocaleTimeString()}</span>
               </div>
               <div className="h-10 w-[2px] bg-zinc-900"></div>
               <div className="text-right">
-                <span className="mono text-[10px] text-zinc-600 uppercase tracking-widest block">Active Entries</span>
-                <span className="mono text-lg text-white uppercase">{quotes.length}</span>
+                <span className="mono text-[11px] text-zinc-600 uppercase tracking-widest block font-black">Active Entries</span>
+                <span className="mono text-lg text-white uppercase font-black">{quotes.length}</span>
               </div>
               <button 
                 onClick={() => setIsBulkAdding(true)}
@@ -201,10 +201,10 @@ const App: FC = () => {
           </div>
           
           <div className="mt-8 md:mt-12 flex flex-wrap items-center justify-center gap-3 md:gap-4">
-            <span className="mono text-[10px] text-zinc-800 mr-2 uppercase tracking-[0.4em]">Tactical Filters:</span>
+            <span className="mono text-[11px] text-zinc-700 mr-2 uppercase tracking-[0.4em] font-black">Tactical Filters:</span>
             <button 
               onClick={() => setSelectedTag(null)}
-              className={`mono text-[9px] md:text-xs px-3 py-1.5 md:px-5 md:py-2.5 border-2 transition-all tracking-[0.1em] font-black ${
+              className={`mono text-[10px] md:text-xs px-3 py-1.5 md:px-5 md:py-2.5 border-2 transition-all tracking-[0.1em] font-black ${
                 !selectedTag ? 'bg-white text-black border-white' : 'text-zinc-700 border-zinc-900 hover:border-white hover:text-white'
               }`}
             >
@@ -214,7 +214,7 @@ const App: FC = () => {
               <button 
                 key={tag}
                 onClick={() => setSelectedTag(tag)}
-                className={`mono text-[9px] md:text-xs px-3 py-1.5 md:px-5 md:py-2.5 border-2 transition-all uppercase tracking-[0.1em] font-black ${
+                className={`mono text-[10px] md:text-xs px-3 py-1.5 md:px-5 md:py-2.5 border-2 transition-all uppercase tracking-[0.1em] font-black ${
                   selectedTag === tag ? 'bg-white text-black border-white' : 'text-zinc-700 border-zinc-900 hover:border-white hover:text-white'
                 }`}
               >
@@ -266,7 +266,7 @@ const App: FC = () => {
                          <div className="w-16 h-16 border-8 border-zinc-100 border-t-zinc-950 rounded-full animate-spin"></div>
                        </div>
                        <p className="oswald text-4xl md:text-6xl font-black italic tracking-widest text-pop animate-pulse">SYNTHESIZING DOCTRINE...</p>
-                       <p className="mono text-xs md:text-sm font-black uppercase tracking-[0.5em] text-zinc-400">Consulting {quotes.length} data points in the armory.</p>
+                       <p className="mono text-sm md:text-base font-black uppercase tracking-[0.5em] text-zinc-400">Consulting {quotes.length} data points in the armory.</p>
                      </div>
                   </div>
                 ) : (
@@ -277,7 +277,7 @@ const App: FC = () => {
                       </div>
                       <div className="text-center">
                         <p className="oswald text-3xl md:text-7xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
-                        <p className="mono text-xs md:text-xl text-zinc-950 font-black uppercase tracking-[0.5em]">Awaiting command</p>
+                        <p className="mono text-sm md:text-xl text-zinc-950 font-black uppercase tracking-[0.5em]">Awaiting command</p>
                       </div>
                     </div>
                   </div>
@@ -311,7 +311,7 @@ const App: FC = () => {
           {filteredQuotes.length === 0 && (
             <div className="col-span-full py-64 md:py-96 bg-[#020202] text-center border-[14px] border-zinc-950 sharp-border shadow-inner">
               <p className="oswald text-4xl md:text-9xl uppercase tracking-[0.8em] font-black mb-10 md:mb-16 opacity-5 italic">Archive Empty</p>
-              <p className="mono text-xs md:text-xl uppercase tracking-[1em] opacity-10 font-black px-16 italic">INPUT NEW DATA ENTRIES.</p>
+              <p className="mono text-sm md:text-xl uppercase tracking-[1em] opacity-10 font-black px-16 italic">INPUT NEW DATA ENTRIES.</p>
             </div>
           )}
         </section>

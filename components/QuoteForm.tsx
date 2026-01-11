@@ -44,12 +44,12 @@ const QuoteForm: FC<QuoteFormProps> = ({ onAdd, onCancel }) => {
     <form onSubmit={handleSubmit} className="bg-black border-4 border-white p-6 md:p-10 space-y-8 md:space-y-10 animate-in fade-in zoom-in-95 duration-300 max-h-screen overflow-y-auto shadow-[0_0_100px_rgba(255,255,255,0.1)]">
       <div className="flex justify-between items-center border-b-4 border-zinc-900 pb-6">
         <h2 className="text-3xl md:text-5xl font-black italic tracking-tighter uppercase leading-none text-pop">Forge Entry</h2>
-        <div className="hidden sm:block text-zinc-400 mono text-[11px] tracking-widest uppercase font-black">Priority: High</div>
+        <div className="hidden sm:block text-zinc-400 mono text-[12px] tracking-widest uppercase font-black">Priority: High</div>
       </div>
       
       <div className="space-y-6 md:space-y-8">
         <div>
-          <label className="block mono text-[11px] font-black text-white mb-3 tracking-widest uppercase">The Raw Data (Quote)</label>
+          <label className="block mono text-[12px] font-black text-white mb-3 tracking-widest uppercase">The Raw Data (Quote)</label>
           <textarea
             required
             autoFocus
@@ -62,7 +62,7 @@ const QuoteForm: FC<QuoteFormProps> = ({ onAdd, onCancel }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           <div>
-            <label className="block mono text-[11px] font-black text-white mb-3 tracking-widest uppercase">Architect</label>
+            <label className="block mono text-[12px] font-black text-white mb-3 tracking-widest uppercase">Architect</label>
             <input
               required
               type="text"
@@ -73,7 +73,7 @@ const QuoteForm: FC<QuoteFormProps> = ({ onAdd, onCancel }) => {
             />
           </div>
           <div>
-            <label className="block mono text-[11px] font-black text-white mb-3 tracking-widest uppercase">Source Material</label>
+            <label className="block mono text-[12px] font-black text-white mb-3 tracking-widest uppercase">Source Material</label>
             <input
               type="text"
               value={source}
@@ -86,12 +86,12 @@ const QuoteForm: FC<QuoteFormProps> = ({ onAdd, onCancel }) => {
 
         <div>
           <div className="flex justify-between items-end mb-4">
-            <label className="block mono text-[11px] font-black text-white tracking-widest uppercase">Tactical Classification</label>
+            <label className="block mono text-[12px] font-black text-white tracking-widest uppercase">Tactical Classification</label>
             <button 
               type="button" 
               onClick={handleSuggest}
               disabled={isSuggesting || !text}
-              className="text-[11px] mono uppercase font-black text-white hover:underline disabled:opacity-20 flex items-center gap-2 transition-all"
+              className="text-[12px] mono uppercase font-black text-white hover:underline disabled:opacity-20 flex items-center gap-2 transition-all"
             >
               <ICONS.Zap /> {isSuggesting ? 'Analyzing...' : 'Auto-Classify'}
             </button>
@@ -105,7 +105,7 @@ const QuoteForm: FC<QuoteFormProps> = ({ onAdd, onCancel }) => {
                 className={`mono text-[10px] px-2 py-3 border-2 transition-all font-black text-center uppercase ${
                   tags.includes(theme) 
                     ? 'bg-white text-black border-white' 
-                    : 'bg-transparent text-zinc-500 border-zinc-800 hover:border-zinc-400'
+                    : 'bg-transparent text-zinc-600 border-zinc-800 hover:border-zinc-400'
                 }`}
               >
                 {theme}
