@@ -20,10 +20,15 @@ const App: FC = () => {
   const [isGeneratingDoctrine, setIsGeneratingDoctrine] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (saved) {
-      setQuotes(JSON.parse(saved));
-    } else {
+    try {
+      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (saved) {
+        setQuotes(JSON.parse(saved));
+      } else {
+        setQuotes(SEED_QUOTES);
+      }
+    } catch (e) {
+      console.error("Failed to load archive:", e);
       setQuotes(SEED_QUOTES);
     }
   }, []);
@@ -75,7 +80,10 @@ const App: FC = () => {
     if (confirm('Permanently expunge this entry from THE GRIT ARCHIVE?')) {
       const updated = quotes.filter(q => q.id !== id);
       setQuotes(updated);
-      if (updated.length === 0) localStorage.removeItem(LOCAL_STORAGE_KEY);
+      if (updated.length === 0) {
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+        setQuotes(SEED_QUOTES);
+      }
     }
   };
 
@@ -232,7 +240,7 @@ const App: FC = () => {
                         <ICONS.Logo />
                       </div>
                       <div className="text-center">
-                        <p className="oswald text-4xl md:text-7xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
+                        <p className="oswald text-3xl md:text-7xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
                         <p className="mono text-xs md:text-xl text-zinc-950 font-black uppercase tracking-[0.5em]">Awaiting command</p>
                       </div>
                     </div>
