@@ -1,8 +1,7 @@
 
 import React, { useState, useEffect, useMemo, FC } from 'react';
-import { Quote, Theme, DoctrineInsight } from './types';
+import { Quote, Theme } from './types';
 import { SEED_QUOTES, ICONS } from './constants';
-import { generateDoctrine } from './services/geminiService';
 import QuoteCard from './components/QuoteCard';
 import QuoteForm from './components/QuoteForm';
 import BulkImport from './components/BulkImport';
@@ -16,8 +15,6 @@ const App: FC = () => {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
   const [isBulkAdding, setIsBulkAdding] = useState(false);
-  const [doctrine, setDoctrine] = useState<DoctrineInsight | null>(null);
-  const [isGeneratingDoctrine, setIsGeneratingDoctrine] = useState(false);
   const [lastSave, setLastSave] = useState<number>(Date.now());
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -102,24 +99,6 @@ const App: FC = () => {
       if (confirm('FINAL WARNING: All forged entries will be lost forever.')) {
         setQuotes([]);
       }
-    }
-  };
-
-  const handleSummonDoctrine = async () => {
-    if (quotes.length === 0) return;
-    setIsGeneratingDoctrine(true);
-    try {
-      const result = await generateDoctrine(quotes);
-      setDoctrine(result);
-    } catch (err) {
-      console.error("Doctrine summons failed:", err);
-      setDoctrine({
-        title: "CORE INTEGRITY",
-        content: "External connections are unstable. Revert to primary archive data. True knowledge resides within the static word.",
-        callToAction: "Review your existing entries manually today."
-      });
-    } finally {
-      setIsGeneratingDoctrine(false);
     }
   };
 
@@ -221,68 +200,6 @@ const App: FC = () => {
                 {tag}
               </button>
             ))}
-          </div>
-        </section>
-
-        <section className="mb-32 md:mb-48">
-          <div className="flex flex-col lg:flex-row gap-0 border-[12px] border-zinc-950 hover:border-white transition-colors duration-1000 overflow-hidden shadow-2xl">
-             <div className="bg-zinc-950 p-10 md:p-16 lg:w-1/3 border-b-[10px] lg:border-b-0 lg:border-r-[10px] border-zinc-900 flex flex-col justify-center">
-                <div className="mb-12 bg-white text-black w-fit px-6 py-2 mono text-xs md:text-sm font-black tracking-[0.5em] uppercase">Command Center</div>
-                <h3 className="text-4xl md:text-7xl font-black mb-10 tracking-tighter italic text-pop leading-none">DAILY DOCTRINE</h3>
-                <p className="text-zinc-500 text-sm md:text-lg leading-tight mb-16 md:mb-20 font-black uppercase tracking-tight">
-                  DISTILL THE ACCUMULATED KNOWLEDGE INTO DIRECT ACTIONABLE TRUTH.
-                </p>
-                <Button 
-                  variant="primary" 
-                  size="lg" 
-                  onClick={handleSummonDoctrine}
-                  disabled={isGeneratingDoctrine || quotes.length === 0}
-                  icon={<ICONS.Zap />}
-                  className="w-full text-2xl py-8"
-                >
-                  {isGeneratingDoctrine ? 'PROCESSING...' : 'EXTRACT TRUTH'}
-                </Button>
-             </div>
-
-             <div className="flex-1 bg-white text-black p-12 md:p-28 flex flex-col justify-center min-h-[450px] md:min-h-[600px]">
-                {doctrine ? (
-                  <div className="animate-in fade-in zoom-in-95 duration-1000">
-                    <span className="mono text-xs md:text-sm font-black uppercase tracking-[1em] block mb-8 text-zinc-400">Tacit Knowledge</span>
-                    <h2 className="text-4xl md:text-9xl font-black mb-10 md:mb-16 tracking-tighter uppercase leading-none italic">{doctrine.title}</h2>
-                    <p className="text-2xl md:text-6xl mb-14 md:mb-24 leading-[1] font-black tracking-tight italic">
-                      "{doctrine.content}"
-                    </p>
-                    <div className="bg-black text-white p-12 md:p-20 flex flex-col md:flex-row md:items-center justify-between gap-12 border-l-[24px] md:border-l-[40px] border-zinc-800 sharp-border shadow-2xl">
-                      <div className="max-w-2xl">
-                        <span className="mono text-xs font-black text-zinc-700 block mb-6 tracking-[1em] uppercase">Tactical Objective</span>
-                        <span className="text-2xl md:text-6xl font-black uppercase tracking-tight italic text-pop">{doctrine.callToAction}</span>
-                      </div>
-                    </div>
-                  </div>
-                ) : isGeneratingDoctrine ? (
-                  <div className="h-full flex flex-col items-center justify-center py-20 md:py-40">
-                     <div className="text-center space-y-8">
-                       <div className="flex justify-center">
-                         <div className="w-16 h-16 border-8 border-zinc-100 border-t-zinc-950 rounded-full animate-spin"></div>
-                       </div>
-                       <p className="oswald text-4xl md:text-6xl font-black italic tracking-widest text-pop animate-pulse">SYNTHESIZING DOCTRINE...</p>
-                       <p className="mono text-sm md:text-base font-black uppercase tracking-[0.5em] text-zinc-400">Consulting {quotes.length} data points in the armory.</p>
-                     </div>
-                  </div>
-                ) : (
-                  <div className="h-full flex flex-col items-center justify-center py-20 md:py-40 opacity-20">
-                    <div className="flex flex-col items-center gap-16 md:gap-24">
-                      <div className="text-zinc-950 scale-[3]">
-                        <ICONS.Logo />
-                      </div>
-                      <div className="text-center">
-                        <p className="oswald text-3xl md:text-7xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
-                        <p className="mono text-sm md:text-xl text-zinc-950 font-black uppercase tracking-[0.5em]">Awaiting command</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-             </div>
           </div>
         </section>
 

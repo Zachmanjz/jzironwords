@@ -30,9 +30,3 @@ export enum Theme {
   MORTALITY = 'Mortality',
   STOICISM = 'Stoicism'
 }
-
-export interface DoctrineInsight {
-  title: string;
-  content: string;
-  callToAction: string;
-}
