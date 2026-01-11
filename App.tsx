@@ -94,8 +94,13 @@ const App: FC = () => {
       const result = await generateDoctrine(quotes);
       setDoctrine(result);
     } catch (err) {
-      console.error(err);
-      alert("Intelligence core failed to synthesize doctrine. Check connection.");
+      console.error("Doctrine summons failed:", err);
+      // We rely on the fallback provided in the service, but if that also fails:
+      setDoctrine({
+        title: "CORE INTEGRITY",
+        content: "External connections are unstable. Revert to the primary archive data. True knowledge resides within the static word.",
+        callToAction: "Review your existing entries manually today."
+      });
     } finally {
       setIsGeneratingDoctrine(false);
     }
@@ -233,6 +238,16 @@ const App: FC = () => {
                       </div>
                     </div>
                   </div>
+                ) : isGeneratingDoctrine ? (
+                  <div className="h-full flex flex-col items-center justify-center py-20 md:py-40">
+                     <div className="text-center space-y-8">
+                       <div className="flex justify-center">
+                         <div className="w-16 h-16 border-8 border-zinc-100 border-t-zinc-950 rounded-full animate-spin"></div>
+                       </div>
+                       <p className="oswald text-4xl md:text-6xl font-black italic tracking-widest text-pop animate-pulse">SYNTHESIZING DOCTRINE...</p>
+                       <p className="mono text-xs md:text-sm font-black uppercase tracking-[0.5em] text-zinc-400">Distilling tactical advantage from {quotes.length} archive entries.</p>
+                     </div>
+                  </div>
                 ) : (
                   <div className="h-full flex flex-col items-center justify-center py-20 md:py-40 opacity-20">
                     <div className="flex flex-col items-center gap-16 md:gap-24">
@@ -240,7 +255,7 @@ const App: FC = () => {
                         <ICONS.Logo />
                       </div>
                       <div className="text-center">
-                        <p className="oswald text-3xl md:text-7xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
+                        <p className="oswald text-4xl md:text-7xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
                         <p className="mono text-xs md:text-xl text-zinc-950 font-black uppercase tracking-[0.5em]">Awaiting command</p>
                       </div>
                     </div>

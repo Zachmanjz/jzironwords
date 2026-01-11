@@ -11,15 +11,16 @@ export const generateDoctrine = async (quotes: Quote[]): Promise<DoctrineInsight
     model: "gemini-3-pro-preview",
     contents: `Based on these ${quotes.length} quotes from my personal armory, synthesize a single core "Doctrine of the Day". 
     It should be hard-hitting, masculine, and action-oriented. 
-    Look for recurring themes across the different authors.
+    Look for recurring themes across the different authors and combine them into a singular directive.
     
     My Armory:
     ${quoteTexts}
     
-    Provide the response in valid JSON format.`,
+    Provide the response strictly in JSON format.`,
     config: {
       responseMimeType: "application/json",
-      thinkingConfig: { thinkingBudget: 1024 }, // Reserve budget for complex synthesis
+      // Removed incomplete thinkingConfig to prevent potential API errors as it requires maxOutputTokens to be set simultaneously.
+      // Pro models handle complex synthesis well by default.
       responseSchema: {
         type: Type.OBJECT,
         properties: {
@@ -38,9 +39,10 @@ export const generateDoctrine = async (quotes: Quote[]): Promise<DoctrineInsight
     return JSON.parse(text.trim()) as DoctrineInsight;
   } catch (e) {
     console.error("Doctrine synthesis failed:", e);
+    // Return a fallback so the UI doesn't show a generic error alert if parsing fails
     return {
       title: "STAY VIGILANT",
-      content: "The armory is your refuge, but the field is where you are tested. Silence the noise and return to basics.",
+      content: "The armory is your refuge, but the field is where you are tested. When systems fail, return to the core principles of discipline and silence.",
       callToAction: "Execute the hardest task on your list first."
     };
   }
