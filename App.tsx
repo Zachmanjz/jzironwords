@@ -18,26 +18,41 @@ const App: FC = () => {
   const [isBulkAdding, setIsBulkAdding] = useState(false);
   const [doctrine, setDoctrine] = useState<DoctrineInsight | null>(null);
   const [isGeneratingDoctrine, setIsGeneratingDoctrine] = useState(false);
+  const [lastSave, setLastSave] = useState<number>(Date.now());
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  // Initial Load from the "Database"
   useEffect(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (saved) {
-        setQuotes(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          setQuotes(parsed);
+        } else {
+          setQuotes(SEED_QUOTES);
+        }
       } else {
         setQuotes(SEED_QUOTES);
       }
     } catch (e) {
-      console.error("Failed to load archive:", e);
+      console.error("Critical database read error:", e);
       setQuotes(SEED_QUOTES);
+    } finally {
+      setIsLoaded(true);
     }
   }, []);
 
+  // Sync to the "Database" on every change
   useEffect(() => {
-    if (quotes.length > 0) {
+    if (!isLoaded) return;
+    try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(quotes));
+      setLastSave(Date.now());
+    } catch (e) {
+      console.error("Critical database write error:", e);
     }
-  }, [quotes]);
+  }, [quotes, isLoaded]);
 
   const filteredQuotes = useMemo(() => {
     return quotes.filter(q => {
@@ -58,7 +73,7 @@ const App: FC = () => {
       tags,
       createdAt: Date.now()
     };
-    setQuotes([newQuote, ...quotes]);
+    setQuotes(prev => [newQuote, ...prev]);
     setIsAdding(false);
   };
 
@@ -78,11 +93,14 @@ const App: FC = () => {
 
   const handleDeleteQuote = (id: string) => {
     if (confirm('Permanently expunge this entry from THE GRIT ARCHIVE?')) {
-      const updated = quotes.filter(q => q.id !== id);
-      setQuotes(updated);
-      if (updated.length === 0) {
-        localStorage.removeItem(LOCAL_STORAGE_KEY);
-        setQuotes(SEED_QUOTES);
+      setQuotes(prev => prev.filter(q => q.id !== id));
+    }
+  };
+
+  const handleClearArchive = () => {
+    if (confirm('DANGER: This will PERMANENTLY WIPE your entire quote armory. Proceed?')) {
+      if (confirm('FINAL WARNING: All forged entries will be lost forever.')) {
+        setQuotes([]);
       }
     }
   };
@@ -95,10 +113,9 @@ const App: FC = () => {
       setDoctrine(result);
     } catch (err) {
       console.error("Doctrine summons failed:", err);
-      // We rely on the fallback provided in the service, but if that also fails:
       setDoctrine({
         title: "CORE INTEGRITY",
-        content: "External connections are unstable. Revert to the primary archive data. True knowledge resides within the static word.",
+        content: "External connections are unstable. Revert to primary archive data. True knowledge resides within the static word.",
         callToAction: "Review your existing entries manually today."
       });
     } finally {
@@ -112,7 +129,7 @@ const App: FC = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `iron-words-archive-${new Date().toISOString().split('T')[0]}.json`;
+    link.download = `iron-words-backup-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -127,13 +144,24 @@ const App: FC = () => {
             <div className="text-white hover:scale-110 transition-transform cursor-pointer drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">
               <ICONS.Logo />
             </div>
-            <h1 className="text-2xl sm:text-4xl md:text-6xl font-black italic tracking-tighter leading-none oswald text-pop">
-              IRON<span className="text-zinc-600">WORDS</span>
-            </h1>
+            <div className="flex flex-col">
+              <h1 className="text-2xl sm:text-4xl md:text-6xl font-black italic tracking-tighter leading-none oswald text-pop">
+                IRON<span className="text-zinc-600">WORDS</span>
+              </h1>
+              <div className="flex items-center gap-2 mt-1 hidden sm:flex">
+                <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.8)]"></div>
+                <span className="mono text-[8px] uppercase text-zinc-500 tracking-[0.2em] font-black">Database: Secured (Local)</span>
+              </div>
+            </div>
           </div>
           
           <div className="flex items-center gap-4 md:gap-8">
             <div className="hidden sm:flex items-center gap-6">
+              <div className="text-right">
+                <span className="mono text-[10px] text-zinc-600 uppercase tracking-widest block">Last Write</span>
+                <span className="mono text-[10px] text-white uppercase">{new Date(lastSave).toLocaleTimeString()}</span>
+              </div>
+              <div className="h-10 w-[2px] bg-zinc-900"></div>
               <div className="text-right">
                 <span className="mono text-[10px] text-zinc-600 uppercase tracking-widest block">Active Entries</span>
                 <span className="mono text-lg text-white uppercase">{quotes.length}</span>
@@ -144,13 +172,6 @@ const App: FC = () => {
                 title="Bulk Import Intelligence"
               >
                 <ICONS.Bulk />
-              </button>
-              <button 
-                onClick={handleExportArchive}
-                className="p-3 text-zinc-600 hover:text-white border-4 border-zinc-900 hover:border-white transition-all"
-                title="Export Archive"
-              >
-                <ICONS.Download />
               </button>
             </div>
             <Button 
@@ -245,7 +266,7 @@ const App: FC = () => {
                          <div className="w-16 h-16 border-8 border-zinc-100 border-t-zinc-950 rounded-full animate-spin"></div>
                        </div>
                        <p className="oswald text-4xl md:text-6xl font-black italic tracking-widest text-pop animate-pulse">SYNTHESIZING DOCTRINE...</p>
-                       <p className="mono text-xs md:text-sm font-black uppercase tracking-[0.5em] text-zinc-400">Distilling tactical advantage from {quotes.length} archive entries.</p>
+                       <p className="mono text-xs md:text-sm font-black uppercase tracking-[0.5em] text-zinc-400">Consulting {quotes.length} data points in the armory.</p>
                      </div>
                   </div>
                 ) : (
@@ -255,7 +276,7 @@ const App: FC = () => {
                         <ICONS.Logo />
                       </div>
                       <div className="text-center">
-                        <p className="oswald text-4xl md:text-7xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
+                        <p className="oswald text-3xl md:text-7xl font-black uppercase tracking-[0.4em] md:tracking-[0.8em] text-zinc-950 leading-none mb-8">Archive Idle</p>
                         <p className="mono text-xs md:text-xl text-zinc-950 font-black uppercase tracking-[0.5em]">Awaiting command</p>
                       </div>
                     </div>
@@ -306,13 +327,21 @@ const App: FC = () => {
               IRON WORDS // DATA SECURED
              </div>
            </div>
-           <button 
-             onClick={handleExportArchive}
-             className="flex items-center gap-6 mono text-xs uppercase font-black text-zinc-600 hover:text-white border-[6px] border-zinc-950 hover:border-white px-12 py-5 transition-all tracking-[0.6em]"
-           >
-             <ICONS.Download />
-             EXTRACT ARCHIVE
-           </button>
+           <div className="flex flex-wrap gap-4 justify-center">
+            <button 
+              onClick={handleExportArchive}
+              className="flex items-center gap-6 mono text-xs uppercase font-black text-zinc-600 hover:text-white border-[6px] border-zinc-950 hover:border-white px-12 py-5 transition-all tracking-[0.6em]"
+            >
+              <ICONS.Download />
+              EXTRACT ARCHIVE
+            </button>
+            <button 
+              onClick={handleClearArchive}
+              className="flex items-center gap-6 mono text-xs uppercase font-black text-zinc-900 hover:text-red-600 border-[6px] border-zinc-950 hover:border-red-900 px-12 py-5 transition-all tracking-[0.6em]"
+            >
+              WIPE ARMORY
+            </button>
+           </div>
         </div>
         <div className="text-base md:text-xl mono uppercase text-zinc-900 font-black tracking-[1.5em]">&copy; {new Date().getFullYear()}</div>
       </footer>
